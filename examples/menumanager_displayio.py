@@ -11,8 +11,8 @@ import digitalio
 import displayio
 import ulab.numpy as np
 
-import synthmenu
-import synthmenu.displayio
+import relic_menumanager
+import relic_menumanager.displayio
 
 WIDTH = 128
 HEIGHT = 64
@@ -24,33 +24,33 @@ display_bus = displayio.I2CDisplay(i2c, device_address=0x3C)
 display = adafruit_displayio_ssd1306.SSD1306(display_bus, width=128, height=64)
 
 
-def item_title(item: synthmenu.Item) -> str:
+def item_title(item: relic_menumanager.Item) -> str:
     return type(item).__name__
 
 
-menu = synthmenu.displayio.Menu(
+menu = relic_menumanager.displayio.Menu(
     WIDTH,
     HEIGHT,
     "displayio Menu",
     (
-        synthmenu.Action(item_title, lambda: print("Hello World")),
-        synthmenu.Group(
+        relic_menumanager.Action(item_title, lambda: print("Hello World")),
+        relic_menumanager.Group(
             "Simple Items",
             (
-                synthmenu.Action("Return", lambda: menu.exit()),
-                synthmenu.Number(item_title),
-                synthmenu.Bool(item_title),
-                synthmenu.Time(item_title),
-                synthmenu.List(item_title, ("ASDF", "QWER", "UIOP")),
-                synthmenu.Char(item_title),
+                relic_menumanager.Action("Return", lambda: menu.exit()),
+                relic_menumanager.Number(item_title),
+                relic_menumanager.Bool(item_title),
+                relic_menumanager.Time(item_title),
+                relic_menumanager.List(item_title, ("ASDF", "QWER", "UIOP")),
+                relic_menumanager.Char(item_title),
             ),
         ),
-        synthmenu.Group(
+        relic_menumanager.Group(
             "Complex Items",
             (
-                synthmenu.Action("Return", lambda: menu.exit()),
-                synthmenu.String(item_title, length=8),
-                synthmenu.Waveform(
+                relic_menumanager.Action("Return", lambda: menu.exit()),
+                relic_menumanager.String(item_title, length=8),
+                relic_menumanager.Waveform(
                     item_title,
                     (
                         (
@@ -81,13 +81,13 @@ menu = synthmenu.displayio.Menu(
                         ),
                     ),
                 ),
-                synthmenu.AREnvelope(item_title),
-                synthmenu.ADSREnvelope(item_title),
-                synthmenu.LFO(item_title),
-                synthmenu.Filter(item_title),
-                synthmenu.Mix(item_title),
-                synthmenu.Tune(item_title),
-                synthmenu.Patch(item_title),
+                relic_menumanager.AREnvelope(item_title),
+                relic_menumanager.ADSREnvelope(item_title),
+                relic_menumanager.LFO(item_title),
+                relic_menumanager.Filter(item_title),
+                relic_menumanager.Mix(item_title),
+                relic_menumanager.Tune(item_title),
+                relic_menumanager.Patch(item_title),
             ),
         ),
     ),
@@ -112,12 +112,12 @@ while True:
         button.update()
 
     if buttons[0].fell:
-        if isinstance(menu.selected, synthmenu.Group):
+        if isinstance(menu.selected, relic_menumanager.Group):
             menu.previous()
         else:
             menu.decrement()
     if buttons[1].fell:
-        if isinstance(menu.selected, synthmenu.Group):
+        if isinstance(menu.selected, relic_menumanager.Group):
             menu.next()
         else:
             menu.increment()

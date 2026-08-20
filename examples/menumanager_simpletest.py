@@ -3,13 +3,13 @@
 #
 # SPDX-License-Identifier: Unlicense
 
-import synthmenu
+import relic_menumanager
 
-menu = synthmenu.Menu(
+menu = relic_menumanager.Menu(
     "Menu",
     (
-        synthmenu.Action("Action 1", lambda: print("Hello World!")),
-        synthmenu.Action("Action 2", lambda: print("Hello World, again!")),
+        relic_menumanager.Action("Action 1", lambda: print("Hello World!")),
+        relic_menumanager.Action("Action 2", lambda: print("Hello World, again!")),
     ),
 )
 menu.select()  # Prints "Hello World!" in REPL

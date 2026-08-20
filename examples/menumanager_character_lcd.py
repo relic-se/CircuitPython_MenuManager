@@ -1,60 +1,62 @@
-# SPDX-FileCopyrightText: 2017 Scott Shawcroft, written for Adafruit Industries
 # SPDX-FileCopyrightText: Copyright (c) 2024 Cooper Dalrymple
 #
 # SPDX-License-Identifier: Unlicense
 
-import adafruit_debouncer
 import board
-import digitalio
+from digitalio import DigitalInOut
 import ulab.numpy as np
-from adafruit_character_lcd import character_lcd
 
-import synthmenu.character_lcd
+from adafruit_debouncer import Debouncer
+from adafruit_character_lcd.character_lcd import Character_LCD_Mono
 
-lcd_rs = digitalio.DigitalInOut(board.GP0)
-lcd_en = digitalio.DigitalInOut(board.GP1)
-lcd_d7 = digitalio.DigitalInOut(board.GP2)
-lcd_d6 = digitalio.DigitalInOut(board.GP3)
-lcd_d5 = digitalio.DigitalInOut(board.GP4)
-lcd_d4 = digitalio.DigitalInOut(board.GP5)
-lcd_backlight = digitalio.DigitalInOut(board.GP6)
+from relic_menumanager import *
+from relic_menumanager.synthio import *
+from relic_menumanager.character_lcd import Menu as LCDMenu
+
+lcd_rs = DigitalInOut(board.GP0)
+lcd_en = DigitalInOut(board.GP1)
+lcd_d7 = DigitalInOut(board.GP2)
+lcd_d6 = DigitalInOut(board.GP3)
+lcd_d5 = DigitalInOut(board.GP4)
+lcd_d4 = DigitalInOut(board.GP5)
+lcd_backlight = DigitalInOut(board.GP6)
 
 COLUMNS = 16
 ROWS = 2
 
-lcd = character_lcd.Character_LCD_Mono(
+lcd = Character_LCD_Mono(
     lcd_rs, lcd_en, lcd_d4, lcd_d5, lcd_d6, lcd_d7, COLUMNS, ROWS, lcd_backlight
 )
 
 
-def item_title(item: synthmenu.Item) -> str:
+def item_title(item: Item) -> str:
     return type(item).__name__
 
 
-menu = synthmenu.character_lcd.Menu(
+menu = LCDMenu(
     lcd,
     COLUMNS,
     ROWS,
     "CharLCD Menu",
     (
-        synthmenu.Action(item_title, lambda: print("Hello World")),
-        synthmenu.Group(
+        Action(item_title, lambda: print("Hello World")),
+        Group(
             "Simple Items",
             (
-                synthmenu.Action("Return", lambda: menu.exit()),
-                synthmenu.Number(item_title),
-                synthmenu.Bool(item_title),
-                synthmenu.Time(item_title),
-                synthmenu.List(item_title, ("ASDF", "QWER", "UIOP")),
-                synthmenu.Char(item_title),
+                Action("Return", lambda: menu.exit()),
+                Number(item_title),
+                Bool(item_title),
+                Time(item_title),
+                List(item_title, ("ASDF", "QWER", "UIOP")),
+                Char(item_title),
             ),
         ),
-        synthmenu.Group(
+        Group(
             "Complex Items",
             (
-                synthmenu.Action("Return", lambda: menu.exit()),
-                synthmenu.String(item_title, length=COLUMNS),
-                synthmenu.Waveform(
+                Action("Return", lambda: menu.exit()),
+                String(item_title, length=COLUMNS),
+                Waveform(
                     item_title,
                     (
                         (
@@ -85,28 +87,28 @@ menu = synthmenu.character_lcd.Menu(
                         ),
                     ),
                 ),
-                synthmenu.AREnvelope(item_title),
-                synthmenu.ADSREnvelope(item_title),
-                synthmenu.LFO(item_title),
-                synthmenu.Filter(item_title),
-                synthmenu.Mix(item_title),
-                synthmenu.Tune(item_title),
-                synthmenu.Patch(item_title),
+                AREnvelope(item_title),
+                ADSREnvelope(item_title),
+                LFO(item_title),
+                Filter(item_title),
+                Mix(item_title),
+                Tune(item_title),
+                Patch(item_title),
             ),
         ),
     ),
 )
 
 button_pins = (
-    digitalio.DigitalInOut(board.GP2),
-    digitalio.DigitalInOut(board.GP3),
-    digitalio.DigitalInOut(board.GP4),
-    digitalio.DigitalInOut(board.GP5),
+    DigitalInOut(board.GP2),
+    DigitalInOut(board.GP3),
+    DigitalInOut(board.GP4),
+    DigitalInOut(board.GP5),
 )
 buttons = []
 for pin in button_pins:
-    pin.direction = digitalio.Direction.INPUT
-    buttons.append(adafruit_debouncer.Debouncer(pin))
+    pin.switch_to_input()
+    buttons.append(Debouncer(pin))
 buttons = tuple(buttons)
 
 while True:
@@ -114,12 +116,12 @@ while True:
         button.update()
 
     if buttons[0].fell:
-        if isinstance(menu.selected, synthmenu.Group):
+        if isinstance(menu.selected, Group):
             menu.previous()
         else:
             menu.decrement()
     if buttons[1].fell:
-        if isinstance(menu.selected, synthmenu.Group):
+        if isinstance(menu.selected, Group):
             menu.next()
         else:
             menu.increment()

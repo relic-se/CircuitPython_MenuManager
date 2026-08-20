@@ -3,7 +3,7 @@
 #
 # SPDX-License-Identifier: MIT
 """
-`synthmenu`
+`relic_menumanager`
 ================================================================================
 
 Menu management and display library
@@ -16,10 +16,10 @@ Implementation Notes
 
 **Hardware:**
 
-* If using :class:`synthmenu.character_lcd.Menu`, any standard 16x2 or 16x4 character LCD that is
+* If using :class:`relic_menumanager.character_lcd.Menu`, any standard 16x2 or 16x4 character LCD that is
   supported by Adafruit_CircuitPython_CharLCD can be used.
 
-* If using :class:`synthmenu.displayio.Menu`, any displayio compatible display can be
+* If using :class:`relic_menumanager.displayio.Menu`, any displayio compatible display can be
   used. However, this library is specifically designed with an 128x64 or 128x128 OLED graphic
   display in mind.
 
@@ -33,13 +33,11 @@ Implementation Notes
 # imports
 
 __version__ = "0.0.0+auto.0"
-__repo__ = "https://github.com/dcooperdalrymple/CircuitPython_SynthMenu.git"
+__repo__ = "https://github.com/relic-se/CircuitPython_MenuManager.git"
 
 import json
 import math
 import os
-
-import ulab.numpy as np
 
 try:
     from typing import Callable

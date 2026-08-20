@@ -12,7 +12,7 @@ Create linear (TouchSlider) and rotary (TouchWheel) capacative touch sliders
 Originally part of the 'touchwheels' project: https://github.com/todbot/touchwheels/
 2023 - @todbot / Tod Kurt
 
-2024 - @dcooperdalrymple / Cooper Dalrymple
+2024 - @relic-se / Cooper Dalrymple
 - Added TouchWheelRotary class
 - Changed pos method to read-only property
 - Made TouchWheel properties private

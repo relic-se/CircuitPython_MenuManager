@@ -14,7 +14,7 @@ import rotaryio
 import ulab.numpy as np
 from adafruit_character_lcd import character_lcd
 
-import synthmenu.character_lcd
+import relic_menumanager.character_lcd
 
 lcd_rs = digitalio.DigitalInOut(board.GP7)
 lcd_en = digitalio.DigitalInOut(board.GP6)
@@ -31,32 +31,32 @@ lcd = character_lcd.Character_LCD_Mono(
 )
 
 
-def item_title(item: synthmenu.Item) -> str:
+def item_title(item: relic_menumanager.Item) -> str:
     return type(item).__name__
 
 
-menu = synthmenu.character_lcd.Menu(
+menu = relic_menumanager.character_lcd.Menu(
     lcd,
     COLUMNS,
     ROWS,
     "Menu",
     (
-        synthmenu.Action(item_title, lambda: print("Hello World")),
-        synthmenu.Group(
+        relic_menumanager.Action(item_title, lambda: print("Hello World")),
+        relic_menumanager.Group(
             "Simple",
             (
-                synthmenu.Number(item_title),
-                synthmenu.Bool(item_title),
-                synthmenu.Time(item_title),
-                synthmenu.List(item_title, ("ASDF", "QWER", "UIOP")),
-                synthmenu.Char(item_title),
+                relic_menumanager.Number(item_title),
+                relic_menumanager.Bool(item_title),
+                relic_menumanager.Time(item_title),
+                relic_menumanager.List(item_title, ("ASDF", "QWER", "UIOP")),
+                relic_menumanager.Char(item_title),
             ),
         ),
-        synthmenu.Group(
+        relic_menumanager.Group(
             "Complex",
             (
-                synthmenu.String(item_title, length=COLUMNS),
-                synthmenu.Waveform(
+                relic_menumanager.String(item_title, length=COLUMNS),
+                relic_menumanager.Waveform(
                     item_title,
                     (
                         (
@@ -87,13 +87,13 @@ menu = synthmenu.character_lcd.Menu(
                         ),
                     ),
                 ),
-                synthmenu.AREnvelope(item_title),
-                synthmenu.ADSREnvelope(item_title),
-                synthmenu.LFO(item_title),
-                synthmenu.Filter(item_title),
-                synthmenu.Mix(item_title),
-                synthmenu.Tune(item_title),
-                synthmenu.Patch(item_title),
+                relic_menumanager.AREnvelope(item_title),
+                relic_menumanager.ADSREnvelope(item_title),
+                relic_menumanager.LFO(item_title),
+                relic_menumanager.Filter(item_title),
+                relic_menumanager.Mix(item_title),
+                relic_menumanager.Tune(item_title),
+                relic_menumanager.Patch(item_title),
             ),
         ),
     ),
@@ -133,7 +133,7 @@ while True:
         if buttons[i].rose:
             if not i:
                 menu.exit()
-            elif isinstance(menu.selected.current_item, synthmenu.Group):
+            elif isinstance(menu.selected.current_item, relic_menumanager.Group):
                 menu.select()
 
         encoder_position[i] = position
