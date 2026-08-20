@@ -3,13 +3,13 @@
 #
 # SPDX-License-Identifier: Unlicense
 
-import relic_menumanager
+from relic_menumanager import Menu, Action
 
-menu = relic_menumanager.Menu(
+menu = Menu(
     "Menu",
     (
-        relic_menumanager.Action("Action 1", lambda: print("Hello World!")),
-        relic_menumanager.Action("Action 2", lambda: print("Hello World, again!")),
+        Action("Action 1", lambda: print("Hello World!")),
+        Action("Action 2", lambda: print("Hello World, again!")),
     ),
 )
 menu.select()  # Prints "Hello World!" in REPL

@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Unlicense
 
 import board
-from digitalio import DigitalInOut
+from digitalio import DigitalInOut, Pull
 import ulab.numpy as np
 
 from adafruit_debouncer import Debouncer
@@ -107,7 +107,7 @@ button_pins = (
 )
 buttons = []
 for pin in button_pins:
-    pin.switch_to_input()
+    pin.switch_to_input(pull=Pull.UP)
     buttons.append(Debouncer(pin))
 buttons = tuple(buttons)
 

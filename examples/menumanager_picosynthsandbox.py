@@ -7,56 +7,59 @@ Example for `pico_synth_sandbox Rev2
 <https://github.com/relic-se/pico_synth_sandbox-hardware/releases/tag/Rev2>`_ by @relic-se.
 """
 
-import adafruit_debouncer
 import board
-import digitalio
-import rotaryio
+from digitalio import DigitalInOut, Pull
+from rotaryio import IncrementalEncoder
 import ulab.numpy as np
-from adafruit_character_lcd import character_lcd
 
-import relic_menumanager.character_lcd
+from adafruit_debouncer import Debouncer
+from adafruit_character_lcd.character_lcd import Character_LCD_Mono
 
-lcd_rs = digitalio.DigitalInOut(board.GP7)
-lcd_en = digitalio.DigitalInOut(board.GP6)
-lcd_d4 = digitalio.DigitalInOut(board.GP22)
-lcd_d5 = digitalio.DigitalInOut(board.GP26)
-lcd_d6 = digitalio.DigitalInOut(board.GP27)
-lcd_d7 = digitalio.DigitalInOut(board.GP28)
+from relic_menumanager import *
+from relic_menumanager.synthio import *
+from relic_menumanager.character_lcd import Menu as LCDMenu
+
+lcd_rs = DigitalInOut(board.GP7)
+lcd_en = DigitalInOut(board.GP6)
+lcd_d4 = DigitalInOut(board.GP22)
+lcd_d5 = DigitalInOut(board.GP26)
+lcd_d6 = DigitalInOut(board.GP27)
+lcd_d7 = DigitalInOut(board.GP28)
 
 COLUMNS = 16
 ROWS = 2
 
-lcd = character_lcd.Character_LCD_Mono(
+lcd = Character_LCD_Mono(
     lcd_rs, lcd_en, lcd_d4, lcd_d5, lcd_d6, lcd_d7, COLUMNS, ROWS
 )
 
 
-def item_title(item: relic_menumanager.Item) -> str:
+def item_title(item: Item) -> str:
     return type(item).__name__
 
 
-menu = relic_menumanager.character_lcd.Menu(
+menu = LCDMenu(
     lcd,
     COLUMNS,
     ROWS,
     "Menu",
     (
-        relic_menumanager.Action(item_title, lambda: print("Hello World")),
-        relic_menumanager.Group(
+        Action(item_title, lambda: print("Hello World")),
+        Group(
             "Simple",
             (
-                relic_menumanager.Number(item_title),
-                relic_menumanager.Bool(item_title),
-                relic_menumanager.Time(item_title),
-                relic_menumanager.List(item_title, ("ASDF", "QWER", "UIOP")),
-                relic_menumanager.Char(item_title),
+                Number(item_title),
+                Bool(item_title),
+                Time(item_title),
+                List(item_title, ("ASDF", "QWER", "UIOP")),
+                Char(item_title),
             ),
         ),
-        relic_menumanager.Group(
+        Group(
             "Complex",
             (
-                relic_menumanager.String(item_title, length=COLUMNS),
-                relic_menumanager.Waveform(
+                String(item_title, length=COLUMNS),
+                Waveform(
                     item_title,
                     (
                         (
@@ -87,13 +90,13 @@ menu = relic_menumanager.character_lcd.Menu(
                         ),
                     ),
                 ),
-                relic_menumanager.AREnvelope(item_title),
-                relic_menumanager.ADSREnvelope(item_title),
-                relic_menumanager.LFO(item_title),
-                relic_menumanager.Filter(item_title),
-                relic_menumanager.Mix(item_title),
-                relic_menumanager.Tune(item_title),
-                relic_menumanager.Patch(item_title),
+                AREnvelope(item_title),
+                ADSREnvelope(item_title),
+                LFO(item_title),
+                Filter(item_title),
+                Mix(item_title),
+                Tune(item_title),
+                Patch(item_title),
             ),
         ),
     ),
@@ -101,19 +104,18 @@ menu = relic_menumanager.character_lcd.Menu(
 
 
 button_pins = (
-    digitalio.DigitalInOut(board.GP13),
-    digitalio.DigitalInOut(board.GP18),
+    DigitalInOut(board.GP13),
+    DigitalInOut(board.GP18),
 )
 buttons = []
 for pin in button_pins:
-    pin.direction = digitalio.Direction.INPUT
-    pin.pull = digitalio.Pull.UP
-    buttons.append(adafruit_debouncer.Debouncer(pin))
+    pin.switch_to_input(pull=Pull.UP)
+    buttons.append(Debouncer(pin))
 buttons = tuple(buttons)
 
 encoders = (
-    rotaryio.IncrementalEncoder(board.GP12, board.GP11),
-    rotaryio.IncrementalEncoder(board.GP17, board.GP16),
+    IncrementalEncoder(board.GP12, board.GP11),
+    IncrementalEncoder(board.GP17, board.GP16),
 )
 encoder_position = []
 for encoder in encoders:
@@ -133,7 +135,7 @@ while True:
         if buttons[i].rose:
             if not i:
                 menu.exit()
-            elif isinstance(menu.selected.current_item, relic_menumanager.Group):
+            elif isinstance(menu.selected.current_item, Group):
                 menu.select()
 
         encoder_position[i] = position

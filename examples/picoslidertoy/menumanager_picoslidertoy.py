@@ -6,15 +6,17 @@
 Example for `picoslidertoy <https://github.com/todbot/picoslidertoy>`_ by @todbot.
 """
 
-import adafruit_displayio_ssd1306
 import board
 import busio
 import displayio
-import touchslider
 import ulab.numpy as np
 
-import relic_menumanager
-import relic_menumanager.displayio
+from adafruit_displayio_ssd1306 import SSD1306
+from touchslider import TouchSlider, TouchWheelRotary
+
+from relic_menumanager import *
+from relic_menumanager.synthio import *
+from relic_menumanager.displayio import Menu as DisplayioMenu
 
 WIDTH = 128
 HEIGHT = 64
@@ -23,34 +25,34 @@ displayio.release_displays()
 
 i2c = busio.I2C(scl=board.GP15, sda=board.GP14, frequency=1000000)
 display_bus = displayio.I2CDisplay(i2c, device_address=0x3C)
-display = adafruit_displayio_ssd1306.SSD1306(display_bus, width=128, height=64)
+display = SSD1306(display_bus, width=128, height=64)
 
 
-def item_title(item: relic_menumanager.Item) -> str:
+def item_title(item: Item) -> str:
     return type(item).__name__
 
 
-menu = relic_menumanager.displayio.Menu(
+menu = DisplayioMenu(
     WIDTH,
     HEIGHT,
     "picoslidertoy Menu",
     (
-        relic_menumanager.Action(item_title, lambda: print("Hello World")),
-        relic_menumanager.Group(
+        Action(item_title, lambda: print("Hello World")),
+        Group(
             "Simple Items",
             (
-                relic_menumanager.Number(item_title),
-                relic_menumanager.Bool(item_title),
-                relic_menumanager.Time(item_title),
-                relic_menumanager.List(item_title, ("ASDF", "QWER", "UIOP")),
-                relic_menumanager.Char(item_title),
+                Number(item_title),
+                Bool(item_title),
+                Time(item_title),
+                List(item_title, ("ASDF", "QWER", "UIOP")),
+                Char(item_title),
             ),
         ),
-        relic_menumanager.Group(
+        Group(
             "Complex Items",
             (
-                relic_menumanager.String(item_title, length=8),
-                relic_menumanager.Waveform(
+                String(item_title, length=8),
+                Waveform(
                     item_title,
                     (
                         (
@@ -81,13 +83,13 @@ menu = relic_menumanager.displayio.Menu(
                         ),
                     ),
                 ),
-                relic_menumanager.AREnvelope(item_title),
-                relic_menumanager.ADSREnvelope(item_title),
-                relic_menumanager.LFO(item_title),
-                relic_menumanager.Filter(item_title),
-                relic_menumanager.Mix(item_title),
-                relic_menumanager.Tune(item_title),
-                relic_menumanager.Patch(item_title),
+                AREnvelope(item_title),
+                ADSREnvelope(item_title),
+                LFO(item_title),
+                Filter(item_title),
+                Mix(item_title),
+                Tune(item_title),
+                Patch(item_title),
             ),
         ),
     ),
@@ -95,8 +97,8 @@ menu = relic_menumanager.displayio.Menu(
 
 display.root_group = menu.group
 
-wheelX = touchslider.TouchWheelRotary((board.GP7, board.GP8, board.GP9))
-wheelY = touchslider.TouchWheelRotary((board.GP10, board.GP11, board.GP12), step_size=0.15)
+wheelX = TouchWheelRotary((board.GP7, board.GP8, board.GP9))
+wheelY = TouchWheelRotary((board.GP10, board.GP11, board.GP12), step_size=0.15)
 
 wheelX.on_increment = lambda: menu.next()
 wheelX.on_decrement = lambda: menu.previous()
@@ -108,7 +110,7 @@ wheelY.on_decrement = lambda: menu.decrement()
 wheelY.on_right_press = lambda: menu.increment()
 wheelY.on_left_press = lambda: menu.decrement()
 
-faderC = touchslider.TouchSlider((board.GP3, board.GP2, board.GP26))
+faderC = TouchSlider((board.GP3, board.GP2, board.GP26))
 
 while True:
     wheelX.update()
