@@ -74,6 +74,9 @@ class Item:
     def label(self) -> str:
         return ""
 
+    def _get_data(self) -> any:
+        return self.data
+
     @property
     def data(self) -> any:
         return self.value
@@ -154,10 +157,7 @@ class Group(Item):
     def data(self) -> dict:
         data = {}
         for item in self._items:
-            if isinstance(item, WaveformList):
-                value = item.value
-            else:
-                value = item.data
+            value = item._get_data()
             if value is not None:
                 data[item.title] = value
         return data if data else None

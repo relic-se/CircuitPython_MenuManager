@@ -25,6 +25,9 @@ class WaveformList(List):
     def label(self) -> str:
         return self._items[self.value][0]
 
+    def _get_data(self) -> any:
+        return self.value
+
     @property
     def data(self) -> np.ndarray:
         return self._items[self.value][1]()
