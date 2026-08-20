@@ -5,3 +5,4 @@
 
 Adafruit-Blinka
 adafruit_character_lcd
+adafruit_display_text
