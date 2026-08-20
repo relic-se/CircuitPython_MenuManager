@@ -6,3 +6,20 @@
 
 .. automodule:: relic_menumanager
     :members:
+    :undoc-members:
+    :show-inheritance:
+
+.. automodule:: relic_menumanager.synthio
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+.. automodule:: relic_menumanager.character_lcd
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+.. automodule:: relic_menumanager.displayio
+    :members:
+    :undoc-members:
+    :show-inheritance:
