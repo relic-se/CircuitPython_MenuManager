@@ -11,7 +11,7 @@ from adafruit_character_lcd.character_lcd import Character_LCD_Mono
 
 from relic_menumanager import *
 from relic_menumanager.synthio import *
-from relic_menumanager.character_lcd import Menu as LCDMenu
+from relic_menumanager.character_lcd import Character_LCD_Menu
 
 lcd_rs = DigitalInOut(board.GP0)
 lcd_en = DigitalInOut(board.GP1)
@@ -33,7 +33,7 @@ def item_title(item: Item) -> str:
     return type(item).__name__
 
 
-menu = LCDMenu(
+menu = Character_LCD_Menu(
     lcd,
     COLUMNS,
     ROWS,

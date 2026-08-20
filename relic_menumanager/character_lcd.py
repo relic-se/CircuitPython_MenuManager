@@ -4,7 +4,7 @@
 
 from adafruit_character_lcd.character_lcd import Character_LCD_Mono
 
-from relic_menumanager import Menu as MenuBase, Item, Group, String
+from relic_menumanager import Menu, Item, Group, String
 from relic_menumanager.synthio import Sequence
 
 try:
@@ -13,7 +13,7 @@ except ImportError:
     pass
 
 
-class Menu(MenuBase):
+class Character_LCD_Menu(Menu):
     def __init__(
         self,
         lcd: Character_LCD_Mono,

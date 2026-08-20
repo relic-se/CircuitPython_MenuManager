@@ -14,7 +14,7 @@ from adafruit_displayio_ssd1306 import SSD1306
 
 from relic_menumanager import *
 from relic_menumanager.synthio import *
-from relic_menumanager.displayio import Menu as DisplayioMenu
+from relic_menumanager.displayio import Displayio_Menu
 
 WIDTH = 128
 HEIGHT = 64
@@ -30,7 +30,7 @@ def item_title(item: Item) -> str:
     return type(item).__name__
 
 
-menu = DisplayioMenu(
+menu = Displayio_Menu(
     WIDTH,
     HEIGHT,
     "displayio Menu",

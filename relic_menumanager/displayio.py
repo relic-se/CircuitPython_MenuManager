@@ -10,7 +10,7 @@ from micropython import const
 
 from adafruit_display_text import label
 
-from relic_menumanager import Menu as MenuBase, Item, Group, String
+from relic_menumanager import Menu, Item, Group, String
 from relic_menumanager.synthio import Waveform, WaveformList, ADSREnvelope, AREnvelope
 
 try:
@@ -32,7 +32,7 @@ INDICATOR_STROKE = const(2)
 INDICATOR_MARGIN = const(2)
 
 
-class Menu(MenuBase):
+class Displayio_Menu(Menu):
     title_background_color: int = 0xFFFFFF
     title_label_color: int = 0x000000
 
