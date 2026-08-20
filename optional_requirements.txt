@@ -2,5 +2,5 @@
 #
 # SPDX-License-Identifier: Unlicense
 
-adafruit_character_lcd
-adafruit_display_text
+adafruit-circuitpython-charlcd
+adafruit-circuitpython-display-text
