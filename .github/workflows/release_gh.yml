@@ -10,7 +10,7 @@ on:
 
 jobs:
   upload-release-assets:
-    runs-on: ubuntu-lts-latest
+    runs-on: ubuntu-latest
     steps:
     - name: Run GitHub Release CI workflow
       uses: adafruit/workflows-circuitpython-libs/release-gh@main
