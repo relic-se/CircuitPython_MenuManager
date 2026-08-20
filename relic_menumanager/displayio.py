@@ -10,7 +10,8 @@ from micropython import const
 
 from adafruit_display_text import label
 
-import relic_menumanager
+from relic_menumanager import Menu as MenuBase, Item, Group, String
+from relic_menumanager.synthio import Waveform, WaveformList, ADSREnvelope, AREnvelope
 
 try:
     from typing import Callable
@@ -31,7 +32,7 @@ INDICATOR_STROKE = const(2)
 INDICATOR_MARGIN = const(2)
 
 
-class Menu(relic_menumanager.Menu):
+class Menu(MenuBase):
     title_background_color: int = 0xFFFFFF
     title_label_color: int = 0x000000
 
@@ -52,7 +53,7 @@ class Menu(relic_menumanager.Menu):
         width: int = 128,
         height: int = 64,
         title: str | Callable[[], str] = "",
-        items: tuple[relic_menumanager.Item] = None,
+        items: tuple[Item] = None,
         loop: bool = False,
         title_font: FontProtocol = terminalio.FONT,
         text_font: FontProtocol = terminalio.FONT,
@@ -203,13 +204,13 @@ class Menu(relic_menumanager.Menu):
     def draw(self) -> None:
         item = self.selected
 
-        is_string = isinstance(item, relic_menumanager.String)
-        is_waveform = isinstance(item, (relic_menumanager.Waveform, relic_menumanager.WaveformList))
-        is_waveform_group = isinstance(item, relic_menumanager.Waveform)
-        is_envelope = isinstance(item, (relic_menumanager.ADSREnvelope, relic_menumanager.AREnvelope))
+        is_string = isinstance(item, String)
+        is_waveform = isinstance(item, (Waveform, WaveformList))
+        is_waveform_group = isinstance(item, Waveform)
+        is_envelope = isinstance(item, (ADSREnvelope, AREnvelope))
         is_value_group = is_string or is_waveform_group or is_envelope
         is_value = (
-            not isinstance(item, relic_menumanager.Group) or is_string or is_waveform_group or is_envelope
+            not isinstance(item, Group) or is_string or is_waveform_group or is_envelope
         )
 
         self._draw_items.hidden = is_value
@@ -257,7 +258,7 @@ class Menu(relic_menumanager.Menu):
                 )
 
         elif is_envelope:
-            if isinstance(item, relic_menumanager.AREnvelope):
+            if isinstance(item, AREnvelope):
                 values = (
                     (item.attack_time.relative_value, item.sustain_level.value),
                     (item.release_time.relative_value, item.sustain_level.value),
@@ -304,7 +305,7 @@ class Menu(relic_menumanager.Menu):
                     self._width - CHAR_WIDTH * item.length
                 ) // 2 + CHAR_WIDTH * item.index
 
-    def _draw_item(self, index: int, item: relic_menumanager.Item, selected: bool = False) -> None:
+    def _draw_item(self, index: int, item: Item, selected: bool = False) -> None:
         draw_item = self._draw_items[index % len(self._draw_items)]
         draw_item[0].pixel_shader[0] = (
             self.item_border_selected_color if selected else self.item_border_color

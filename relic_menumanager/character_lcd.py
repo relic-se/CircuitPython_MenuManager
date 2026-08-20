@@ -4,7 +4,8 @@
 
 from adafruit_character_lcd.character_lcd import Character_LCD_Mono
 
-import relic_menumanager
+from relic_menumanager import Menu as MenuBase, Item, Group, String
+from relic_menumanager.synthio import Sequence
 
 try:
     from typing import Callable
@@ -12,14 +13,14 @@ except ImportError:
     pass
 
 
-class Menu(relic_menumanager.Menu):
+class Menu(MenuBase):
     def __init__(
         self,
         lcd: Character_LCD_Mono,
         columns: int,
         lines: int,
         title: str | Callable[[], str] = "",
-        items: tuple[relic_menumanager.Item] = None,
+        items: tuple[Item] = None,
         loop: bool = False,
     ):
         self._lcd = lcd
@@ -30,8 +31,8 @@ class Menu(relic_menumanager.Menu):
         self._lcd.blink = False
         super().__init__(title, items, loop)
 
-    def _has_cursor(self, item: relic_menumanager.Item) -> bool:
-        return isinstance(item, (relic_menumanager.Sequence, relic_menumanager.String))
+    def _has_cursor(self, item: Item) -> bool:
+        return isinstance(item, (Sequence, String))
 
     def draw(self) -> None:
         self._lcd.cursor_position(0, 0)
@@ -39,7 +40,7 @@ class Menu(relic_menumanager.Menu):
         item = self.selected
 
         title = item.title
-        if isinstance(item, relic_menumanager.Group):
+        if isinstance(item, Group):
             item_len = min(len(item.current_item.title), self._columns - 4)
             title_len = min(max(len(item.title), 3), self._columns - 1 - item_len)
             gap_len = self._columns - title_len - 1 - item_len
@@ -48,10 +49,10 @@ class Menu(relic_menumanager.Menu):
             )
 
         value = item.label
-        if isinstance(item, relic_menumanager.Group) and not self._has_cursor(item):
+        if isinstance(item, Group) and not self._has_cursor(item):
             value = (
                 "Enter"
-                if isinstance(item.current_item, relic_menumanager.Group)
+                if isinstance(item.current_item, Group)
                 and not self._has_cursor(item.current_item)
                 else item.current_item.label
             )
