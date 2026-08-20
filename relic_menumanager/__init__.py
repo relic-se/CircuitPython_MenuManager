@@ -16,10 +16,10 @@ Implementation Notes
 
 **Hardware:**
 
-* If using :class:`relic_menumanager.character_lcd.Menu`, any standard 16x2 or 16x4 character LCD
+* If using :class:`relic_menumanager.character_lcd.Character_LCD_Menu`, any standard 16x2 or 16x4 character LCD
   that is supported by Adafruit_CircuitPython_CharLCD can be used.
 
-* If using :class:`relic_menumanager.displayio.Menu`, any displayio compatible display can be
+* If using :class:`relic_menumanager.displayio.Displayio_Menu`, any displayio compatible display can be
   used. However, this library is specifically designed with an 128x64 or 128x128 OLED graphic
   display in mind.
 
