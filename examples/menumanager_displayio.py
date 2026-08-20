@@ -5,16 +5,15 @@
 
 import board
 import busio
-from digitalio import DigitalInOut, Pull
 import displayio
 import ulab.numpy as np
-
 from adafruit_debouncer import Debouncer
 from adafruit_displayio_ssd1306 import SSD1306
+from digitalio import DigitalInOut, Pull
 
 from relic_menumanager import *
-from relic_menumanager.synthio import *
 from relic_menumanager.displayio import Displayio_Menu
+from relic_menumanager.synthio import *
 
 WIDTH = 128
 HEIGHT = 64

@@ -3,7 +3,7 @@
 #
 # SPDX-License-Identifier: Unlicense
 
-from relic_menumanager import Menu, Action
+from relic_menumanager import Action, Menu
 
 menu = Menu(
     "Menu",

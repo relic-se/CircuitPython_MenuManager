@@ -39,7 +39,7 @@ class Waveform(Group):
     loop_start: Percentage = None
     loop_end: Percentage = None
 
-    def __init__(
+    def __init__(  # noqa: PLR0913
         self,
         title: str | Callable[[Item], str],
         items: tuple[str, Callable[[], np.ndarray]],
@@ -117,7 +117,7 @@ class ADSREnvelope(Group):
     sustain_level: Number = None
     release_time: Time = None
 
-    def __init__(
+    def __init__(  # noqa: PLR0913
         self,
         title: str | Callable[[Item], str],
         on_attack_time_update: Callable[[float, Item], None] = None,
@@ -189,7 +189,7 @@ class Filter(Group):
     frequency: Number = None
     resonance: Number = None
 
-    def __init__(
+    def __init__(  # noqa: PLR0913
         self,
         title: str | Callable[[Item], str],
         min_frequency: float = 0.0,
@@ -275,7 +275,7 @@ class Tune(Group):
     slew: Number = None
     slew_time: Time = None
 
-    def __init__(
+    def __init__(  # noqa: PLR0913
         self,
         title: str | Callable[[Item], str],
         on_coarse_update: Callable[[float, Item], None] = None,

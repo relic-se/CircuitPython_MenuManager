@@ -97,7 +97,8 @@ class TouchSlider(TouchWheel):
 
 
 class TouchWheelRotary(TouchWheel):
-    """A TouchWheelRotary is a standard TouchWheel but with an incremental value and button inputs.
+    """A TouchWheelRotary is a standard TouchWheel but with an incremental value and button
+    inputs.
     """
 
     on_left_press: Callable[[], None] = None
@@ -114,7 +115,7 @@ class TouchWheelRotary(TouchWheel):
     on_decrement: Callable[[], None] = None
     on_step_release: Callable[[int], None] = None
 
-    def __init__(
+    def __init__(  # noqa: PLR0913
         self,
         touch_pins,
         step_size=0.2,
@@ -132,7 +133,7 @@ class TouchWheelRotary(TouchWheel):
         self._stepped = False
         self._steps = 0
 
-    def update(self) -> None:
+    def update(self) -> None:  # noqa: PLR0912, PLR0915
         value = self.pos
 
         # No touch

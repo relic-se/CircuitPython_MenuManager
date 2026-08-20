@@ -6,12 +6,11 @@ import displayio
 import terminalio
 import ulab.numpy as np
 import vectorio
+from adafruit_display_text import label
 from micropython import const
 
-from adafruit_display_text import label
-
-from relic_menumanager import Menu, Item, Group, String
-from relic_menumanager.synthio import Waveform, WaveformList, ADSREnvelope, AREnvelope
+from relic_menumanager import Group, Item, Menu, String
+from relic_menumanager.synthio import ADSREnvelope, AREnvelope, Waveform, WaveformList
 
 try:
     from typing import Callable
@@ -48,7 +47,7 @@ class Displayio_Menu(Menu):
     item_label_color: int = 0xFFFFFF
     item_label_selected_color: int = 0x000000
 
-    def __init__(
+    def __init__(  # noqa: PLR0913, PLR0915
         self,
         width: int = 128,
         height: int = 64,
@@ -201,7 +200,7 @@ class Displayio_Menu(Menu):
     def group(self) -> displayio.Group:
         return self._buffer
 
-    def draw(self) -> None:
+    def draw(self) -> None:  # noqa: PLR0912, PLR0915
         item = self.selected
 
         is_string = isinstance(item, String)
@@ -209,9 +208,7 @@ class Displayio_Menu(Menu):
         is_waveform_group = isinstance(item, Waveform)
         is_envelope = isinstance(item, (ADSREnvelope, AREnvelope))
         is_value_group = is_string or is_waveform_group or is_envelope
-        is_value = (
-            not isinstance(item, Group) or is_string or is_waveform_group or is_envelope
-        )
+        is_value = not isinstance(item, Group) or is_string or is_waveform_group or is_envelope
 
         self._draw_items.hidden = is_value
         self._value_item.hidden = not is_value or is_waveform or is_envelope

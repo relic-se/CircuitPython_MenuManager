@@ -4,7 +4,7 @@
 
 from adafruit_character_lcd.character_lcd import Character_LCD_Mono
 
-from relic_menumanager import Menu, Item, Group, String
+from relic_menumanager import Group, Item, Menu, String
 from relic_menumanager.synthio import Sequence
 
 try:
@@ -14,7 +14,7 @@ except ImportError:
 
 
 class Character_LCD_Menu(Menu):
-    def __init__(
+    def __init__(  # noqa: PLR0913
         self,
         lcd: Character_LCD_Mono,
         columns: int,
@@ -52,8 +52,7 @@ class Character_LCD_Menu(Menu):
         if isinstance(item, Group) and not self._has_cursor(item):
             value = (
                 "Enter"
-                if isinstance(item.current_item, Group)
-                and not self._has_cursor(item.current_item)
+                if isinstance(item.current_item, Group) and not self._has_cursor(item.current_item)
                 else item.current_item.label
             )
 

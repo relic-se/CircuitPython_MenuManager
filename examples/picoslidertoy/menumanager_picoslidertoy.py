@@ -10,13 +10,12 @@ import board
 import busio
 import displayio
 import ulab.numpy as np
-
 from adafruit_displayio_ssd1306 import SSD1306
 from touchslider import TouchSlider, TouchWheelRotary
 
 from relic_menumanager import *
-from relic_menumanager.synthio import *
 from relic_menumanager.displayio import Displayio_Menu
+from relic_menumanager.synthio import *
 
 WIDTH = 128
 HEIGHT = 64

@@ -16,8 +16,8 @@ Implementation Notes
 
 **Hardware:**
 
-* If using :class:`relic_menumanager.character_lcd.Menu`, any standard 16x2 or 16x4 character LCD that is
-  supported by Adafruit_CircuitPython_CharLCD can be used.
+* If using :class:`relic_menumanager.character_lcd.Menu`, any standard 16x2 or 16x4 character LCD
+  that is supported by Adafruit_CircuitPython_CharLCD can be used.
 
 * If using :class:`relic_menumanager.displayio.Menu`, any displayio compatible display can be
   used. However, this library is specifically designed with an 128x64 or 128x128 OLED graphic
@@ -250,7 +250,7 @@ class Group(Item):
 
         try:
             os.stat(path)
-        except:
+        except OSError:
             return False
 
         try:
@@ -374,7 +374,7 @@ class Action(Item):
 
 
 class Number(Item):
-    def __init__(
+    def __init__(  # noqa: PLR0913
         self,
         title: str | Callable[[Item], str],
         step: float | int = 0.1,
@@ -493,7 +493,7 @@ class Number(Item):
 
 
 class Bool(Number):
-    def __init__(
+    def __init__(  # noqa: PLR0913
         self,
         title: str | Callable[[Item], str],
         default: bool = False,
@@ -531,7 +531,7 @@ class Bool(Number):
 
 
 class Percentage(Number):
-    def __init__(
+    def __init__(  # noqa: PLR0913
         self,
         title: str | Callable[[Item], str],
         step: float = 0.01,
@@ -559,7 +559,7 @@ class Percentage(Number):
 
 
 class Time(Number):
-    def __init__(
+    def __init__(  # noqa: PLR0913
         self,
         title: str | Callable[[Item], str],
         step: float = 0.025,
@@ -585,7 +585,7 @@ class Time(Number):
 
 
 class List(Number):
-    def __init__(
+    def __init__(  # noqa: PLR0913
         self,
         title: str | Callable[[Item], str],
         items: tuple[str],

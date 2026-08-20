@@ -3,15 +3,14 @@
 # SPDX-License-Identifier: Unlicense
 
 import board
-from digitalio import DigitalInOut, Pull
 import ulab.numpy as np
-
-from adafruit_debouncer import Debouncer
 from adafruit_character_lcd.character_lcd import Character_LCD_Mono
+from adafruit_debouncer import Debouncer
+from digitalio import DigitalInOut, Pull
 
 from relic_menumanager import *
-from relic_menumanager.synthio import *
 from relic_menumanager.character_lcd import Character_LCD_Menu
+from relic_menumanager.synthio import *
 
 lcd_rs = DigitalInOut(board.GP0)
 lcd_en = DigitalInOut(board.GP1)
