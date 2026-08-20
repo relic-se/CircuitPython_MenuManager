@@ -1,11 +1,11 @@
-# SPDX-FileCopyrightText: 2017 Scott Shawcroft, written for Adafruit Industries
 # SPDX-FileCopyrightText: Copyright (c) 2024 Cooper Dalrymple
 #
 # SPDX-License-Identifier: MIT
 
 from adafruit_character_lcd.character_lcd import Character_LCD_Mono
 
-import synthmenu
+from relic_menumanager import Menu, Item, Group, String
+from relic_menumanager.synthio import Sequence
 
 try:
     from typing import Callable
@@ -13,14 +13,14 @@ except ImportError:
     pass
 
 
-class Menu(synthmenu.Menu):
+class Character_LCD_Menu(Menu):
     def __init__(
         self,
         lcd: Character_LCD_Mono,
         columns: int,
         lines: int,
         title: str | Callable[[], str] = "",
-        items: tuple[synthmenu.Item] = None,
+        items: tuple[Item] = None,
         loop: bool = False,
     ):
         self._lcd = lcd
@@ -31,8 +31,8 @@ class Menu(synthmenu.Menu):
         self._lcd.blink = False
         super().__init__(title, items, loop)
 
-    def _has_cursor(self, item: synthmenu.Item) -> bool:
-        return isinstance(item, (synthmenu.Sequence, synthmenu.String))
+    def _has_cursor(self, item: Item) -> bool:
+        return isinstance(item, (Sequence, String))
 
     def draw(self) -> None:
         self._lcd.cursor_position(0, 0)
@@ -40,7 +40,7 @@ class Menu(synthmenu.Menu):
         item = self.selected
 
         title = item.title
-        if isinstance(item, synthmenu.Group):
+        if isinstance(item, Group):
             item_len = min(len(item.current_item.title), self._columns - 4)
             title_len = min(max(len(item.title), 3), self._columns - 1 - item_len)
             gap_len = self._columns - title_len - 1 - item_len
@@ -49,10 +49,10 @@ class Menu(synthmenu.Menu):
             )
 
         value = item.label
-        if isinstance(item, synthmenu.Group) and not self._has_cursor(item):
+        if isinstance(item, Group) and not self._has_cursor(item):
             value = (
                 "Enter"
-                if isinstance(item.current_item, synthmenu.Group)
+                if isinstance(item.current_item, Group)
                 and not self._has_cursor(item.current_item)
                 else item.current_item.label
             )

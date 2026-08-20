@@ -2,8 +2,8 @@ Introduction
 ============
 
 
-.. image:: https://readthedocs.org/projects/circuitpython-synthmenu/badge/?version=latest
-    :target: https://circuitpython-synthmenu.readthedocs.io/
+.. image:: https://readthedocs.org/projects/circuitpython-menumanager/badge/?version=latest
+    :target: https://circuitpython-menumanager.readthedocs.io/
     :alt: Documentation Status
 
 
@@ -13,8 +13,8 @@ Introduction
     :alt: Discord
 
 
-.. image:: https://github.com/dcooperdalrymple/CircuitPython_SynthMenu/workflows/Build%20CI/badge.svg
-    :target: https://github.com/dcooperdalrymple/CircuitPython_SynthMenu/actions
+.. image:: https://github.com/relic-se/CircuitPython_MenuManager/workflows/Build%20CI/badge.svg
+    :target: https://github.com/relic-se/CircuitPython_MenuManager/actions
     :alt: Build Status
 
 
@@ -43,18 +43,18 @@ Installing from PyPI
    as a standard element. Stay tuned for PyPI availability!
 
 On supported GNU/Linux systems like the Raspberry Pi, you can install the driver locally `from
-PyPI <https://pypi.org/project/circuitpython-synthmenu/>`_.
+PyPI <https://pypi.org/project/circuitpython-menumanager/>`_.
 To install for current user:
 
 .. code-block:: shell
 
-    pip3 install circuitpython-synthmenu
+    pip3 install circuitpython-menumanager
 
 To install system-wide (this may be required in some cases):
 
 .. code-block:: shell
 
-    sudo pip3 install circuitpython-synthmenu
+    sudo pip3 install circuitpython-menumanager
 
 To install in a virtual environment in your current project:
 
@@ -63,7 +63,7 @@ To install in a virtual environment in your current project:
     mkdir project-name && cd project-name
     python3 -m venv .venv
     source .env/bin/activate
-    pip3 install circuitpython-synthmenu
+    pip3 install circuitpython-menumanager
 
 Installing to a Connected CircuitPython Device with Circup
 ==========================================================
@@ -80,7 +80,7 @@ following command to install:
 
 .. code-block:: shell
 
-    circup install synthmenu
+    circup install relic_menumanager
 
 Or the following command to update an existing version:
 
@@ -93,10 +93,10 @@ Usage Example
 
 .. code-block:: python
 
-    import synthmenu
-    menu = synthmenu.Menu("Menu", (
-        synthmenu.Action("Action 1", lambda: print("Hello World!")),
-        synthmenu.Action("Action 2", lambda: print("Hello World, again!")),
+    from relic_menumanager import Menu, Action
+    menu = Menu("Menu", (
+        Action("Action 1", lambda: print("Hello World!")),
+        Action("Action 2", lambda: print("Hello World, again!")),
     ))
     menu.select() # Prints "Hello World!" in REPL
     menu.next()   # Navigate from "Action 1" to "Action 2"
@@ -104,7 +104,7 @@ Usage Example
 
 Documentation
 =============
-API documentation for this library can be found on `Read the Docs <https://circuitpython-synthmenu.readthedocs.io/>`_.
+API documentation for this library can be found on `Read the Docs <https://circuitpython-menumanager.readthedocs.io/>`_.
 
 For information on building library documentation, please check out
 `this guide <https://learn.adafruit.com/creating-and-sharing-a-circuitpython-library/sharing-our-docs-on-readthedocs#sphinx-5-1>`_.
@@ -113,5 +113,5 @@ Contributing
 ============
 
 Contributions are welcome! Please read our `Code of Conduct
-<https://github.com/dcooperdalrymple/CircuitPython_SynthMenu/blob/HEAD/CODE_OF_CONDUCT.md>`_
+<https://github.com/relic-se/CircuitPython_MenuManager/blob/HEAD/CODE_OF_CONDUCT.md>`_
 before contributing to help this project stay welcoming.

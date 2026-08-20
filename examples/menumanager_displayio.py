@@ -3,16 +3,18 @@
 #
 # SPDX-License-Identifier: Unlicense
 
-import adafruit_debouncer
-import adafruit_displayio_ssd1306
 import board
 import busio
-import digitalio
+from digitalio import DigitalInOut, Pull
 import displayio
 import ulab.numpy as np
 
-import synthmenu
-import synthmenu.displayio
+from adafruit_debouncer import Debouncer
+from adafruit_displayio_ssd1306 import SSD1306
+
+from relic_menumanager import *
+from relic_menumanager.synthio import *
+from relic_menumanager.displayio import Displayio_Menu
 
 WIDTH = 128
 HEIGHT = 64
@@ -21,36 +23,36 @@ displayio.release_displays()
 
 i2c = busio.I2C(scl=board.GP1, sda=board.GP0)
 display_bus = displayio.I2CDisplay(i2c, device_address=0x3C)
-display = adafruit_displayio_ssd1306.SSD1306(display_bus, width=128, height=64)
+display = SSD1306(display_bus, width=128, height=64)
 
 
-def item_title(item: synthmenu.Item) -> str:
+def item_title(item: Item) -> str:
     return type(item).__name__
 
 
-menu = synthmenu.displayio.Menu(
+menu = Displayio_Menu(
     WIDTH,
     HEIGHT,
     "displayio Menu",
     (
-        synthmenu.Action(item_title, lambda: print("Hello World")),
-        synthmenu.Group(
+        Action(item_title, lambda: print("Hello World")),
+        Group(
             "Simple Items",
             (
-                synthmenu.Action("Return", lambda: menu.exit()),
-                synthmenu.Number(item_title),
-                synthmenu.Bool(item_title),
-                synthmenu.Time(item_title),
-                synthmenu.List(item_title, ("ASDF", "QWER", "UIOP")),
-                synthmenu.Char(item_title),
+                Action("Return", lambda: menu.exit()),
+                Number(item_title),
+                Bool(item_title),
+                Time(item_title),
+                List(item_title, ("ASDF", "QWER", "UIOP")),
+                Char(item_title),
             ),
         ),
-        synthmenu.Group(
+        Group(
             "Complex Items",
             (
-                synthmenu.Action("Return", lambda: menu.exit()),
-                synthmenu.String(item_title, length=8),
-                synthmenu.Waveform(
+                Action("Return", lambda: menu.exit()),
+                String(item_title, length=8),
+                Waveform(
                     item_title,
                     (
                         (
@@ -81,13 +83,13 @@ menu = synthmenu.displayio.Menu(
                         ),
                     ),
                 ),
-                synthmenu.AREnvelope(item_title),
-                synthmenu.ADSREnvelope(item_title),
-                synthmenu.LFO(item_title),
-                synthmenu.Filter(item_title),
-                synthmenu.Mix(item_title),
-                synthmenu.Tune(item_title),
-                synthmenu.Patch(item_title),
+                AREnvelope(item_title),
+                ADSREnvelope(item_title),
+                LFO(item_title),
+                Filter(item_title),
+                Mix(item_title),
+                Tune(item_title),
+                Patch(item_title),
             ),
         ),
     ),
@@ -96,15 +98,15 @@ menu = synthmenu.displayio.Menu(
 display.root_group = menu.group
 
 button_pins = (
-    digitalio.DigitalInOut(board.GP2),
-    digitalio.DigitalInOut(board.GP3),
-    digitalio.DigitalInOut(board.GP4),
-    digitalio.DigitalInOut(board.GP5),
+    DigitalInOut(board.GP2),
+    DigitalInOut(board.GP3),
+    DigitalInOut(board.GP4),
+    DigitalInOut(board.GP5),
 )
 buttons = []
 for pin in button_pins:
-    pin.direction = digitalio.Direction.INPUT
-    buttons.append(adafruit_debouncer.Debouncer(pin))
+    pin.switch_to_input(pull=Pull.UP)
+    buttons.append(Debouncer(pin))
 buttons = tuple(buttons)
 
 while True:
@@ -112,12 +114,12 @@ while True:
         button.update()
 
     if buttons[0].fell:
-        if isinstance(menu.selected, synthmenu.Group):
+        if isinstance(menu.selected, Group):
             menu.previous()
         else:
             menu.decrement()
     if buttons[1].fell:
-        if isinstance(menu.selected, synthmenu.Group):
+        if isinstance(menu.selected, Group):
             menu.next()
         else:
             menu.increment()

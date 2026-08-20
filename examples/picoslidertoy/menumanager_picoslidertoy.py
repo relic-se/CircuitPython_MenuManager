@@ -6,17 +6,17 @@
 Example for `picoslidertoy <https://github.com/todbot/picoslidertoy>`_ by @todbot.
 """
 
-import adafruit_debouncer
-import adafruit_displayio_ssd1306
 import board
 import busio
-import digitalio
 import displayio
-import touchslider
 import ulab.numpy as np
 
-import synthmenu
-import synthmenu.displayio
+from adafruit_displayio_ssd1306 import SSD1306
+from touchslider import TouchSlider, TouchWheelRotary
+
+from relic_menumanager import *
+from relic_menumanager.synthio import *
+from relic_menumanager.displayio import Displayio_Menu
 
 WIDTH = 128
 HEIGHT = 64
@@ -25,34 +25,34 @@ displayio.release_displays()
 
 i2c = busio.I2C(scl=board.GP15, sda=board.GP14, frequency=1000000)
 display_bus = displayio.I2CDisplay(i2c, device_address=0x3C)
-display = adafruit_displayio_ssd1306.SSD1306(display_bus, width=128, height=64)
+display = SSD1306(display_bus, width=128, height=64)
 
 
-def item_title(item: synthmenu.Item) -> str:
+def item_title(item: Item) -> str:
     return type(item).__name__
 
 
-menu = synthmenu.displayio.Menu(
+menu = Displayio_Menu(
     WIDTH,
     HEIGHT,
     "picoslidertoy Menu",
     (
-        synthmenu.Action(item_title, lambda: print("Hello World")),
-        synthmenu.Group(
+        Action(item_title, lambda: print("Hello World")),
+        Group(
             "Simple Items",
             (
-                synthmenu.Number(item_title),
-                synthmenu.Bool(item_title),
-                synthmenu.Time(item_title),
-                synthmenu.List(item_title, ("ASDF", "QWER", "UIOP")),
-                synthmenu.Char(item_title),
+                Number(item_title),
+                Bool(item_title),
+                Time(item_title),
+                List(item_title, ("ASDF", "QWER", "UIOP")),
+                Char(item_title),
             ),
         ),
-        synthmenu.Group(
+        Group(
             "Complex Items",
             (
-                synthmenu.String(item_title, length=8),
-                synthmenu.Waveform(
+                String(item_title, length=8),
+                Waveform(
                     item_title,
                     (
                         (
@@ -83,13 +83,13 @@ menu = synthmenu.displayio.Menu(
                         ),
                     ),
                 ),
-                synthmenu.AREnvelope(item_title),
-                synthmenu.ADSREnvelope(item_title),
-                synthmenu.LFO(item_title),
-                synthmenu.Filter(item_title),
-                synthmenu.Mix(item_title),
-                synthmenu.Tune(item_title),
-                synthmenu.Patch(item_title),
+                AREnvelope(item_title),
+                ADSREnvelope(item_title),
+                LFO(item_title),
+                Filter(item_title),
+                Mix(item_title),
+                Tune(item_title),
+                Patch(item_title),
             ),
         ),
     ),
@@ -97,8 +97,8 @@ menu = synthmenu.displayio.Menu(
 
 display.root_group = menu.group
 
-wheelX = touchslider.TouchWheelRotary((board.GP7, board.GP8, board.GP9))
-wheelY = touchslider.TouchWheelRotary((board.GP10, board.GP11, board.GP12), step_size=0.15)
+wheelX = TouchWheelRotary((board.GP7, board.GP8, board.GP9))
+wheelY = TouchWheelRotary((board.GP10, board.GP11, board.GP12), step_size=0.15)
 
 wheelX.on_increment = lambda: menu.next()
 wheelX.on_decrement = lambda: menu.previous()
@@ -110,7 +110,7 @@ wheelY.on_decrement = lambda: menu.decrement()
 wheelY.on_right_press = lambda: menu.increment()
 wheelY.on_left_press = lambda: menu.decrement()
 
-faderC = touchslider.TouchSlider((board.GP3, board.GP2, board.GP26))
+faderC = TouchSlider((board.GP3, board.GP2, board.GP26))
 
 while True:
     wheelX.update()

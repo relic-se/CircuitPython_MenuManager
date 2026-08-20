@@ -21,7 +21,16 @@ extensions = [
     "sphinx.ext.todo",
 ]
 
-autodoc_mock_imports = ["ulab", "displayio", "micropython", "terminalio", "fontio", "vectorio"]
+autodoc_mock_imports = [
+    "ulab",
+    "displayio",
+    "micropython",
+    "terminalio",
+    "fontio",
+    "vectorio",
+    "adafruit_character_lcd",
+    "adafruit_display_text"
+]
 
 autodoc_preserve_defaults = True
 
@@ -43,7 +52,7 @@ source_suffix = ".rst"
 master_doc = "index"
 
 # General information about the project.
-project = "CircuitPython SynthMenu Library"
+project = "CircuitPython Menu Manager Library"
 creation_year = "2024"
 current_year = str(datetime.datetime.now().year)
 year_duration = (
@@ -107,7 +116,7 @@ napoleon_numpy_docstring = False
 import sphinx_rtd_theme
 
 html_theme = "sphinx_rtd_theme"
-html_theme_path = [sphinx_rtd_theme.get_html_theme_path(), "."]
+#html_theme_path = [sphinx_rtd_theme.get_html_theme_path(), "."]
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -121,7 +130,7 @@ html_static_path = ["_static"]
 html_favicon = "_static/favicon.ico"
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = "CircuitPython_Synthmenu_Librarydoc"
+htmlhelp_basename = "CircuitPython_Menumanager_Librarydoc"
 
 # -- Options for LaTeX output ---------------------------------------------
 
@@ -142,8 +151,8 @@ latex_elements = {
 latex_documents = [
     (
         master_doc,
-        "CircuitPython_SynthMenu_Library.tex",
-        "CircuitPython SynthMenu Library Documentation",
+        "CircuitPython_MenuManager_Library.tex",
+        "CircuitPython Menu Manager Library Documentation",
         author,
         "manual",
     ),
@@ -156,8 +165,8 @@ latex_documents = [
 man_pages = [
     (
         master_doc,
-        "CircuitPython_SynthMenu_Library",
-        "CircuitPython SynthMenu Library Documentation",
+        "CircuitPython_MenuManager_Library",
+        "CircuitPython Menu Manager Library Documentation",
         [author],
         1,
     ),
@@ -171,10 +180,10 @@ man_pages = [
 texinfo_documents = [
     (
         master_doc,
-        "CircuitPython_SynthMenu_Library",
-        "CircuitPython SynthMenu Library Documentation",
+        "CircuitPython_MenuManager_Library",
+        "CircuitPython Menu Manager Library Documentation",
         author,
-        "CircuitPython_SynthMenu_Library",
+        "CircuitPython_MenuManager_Library",
         "One line description of project.",
         "Miscellaneous",
     ),

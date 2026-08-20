@@ -11,25 +11,26 @@ requires = [
 ]
 
 [project]
-name = "circuitpython-synthmenu"
+name = "circuitpython-menumanager"
 description = "Menu management and display library"
 version = "0.0.0+auto.0"
 readme = "README.rst"
 authors = [
     {name = "Cooper Dalrymple", email = "me@dcdalrymple.com"}
 ]
-urls = {Homepage = "https://github.com/dcooperdalrymple/CircuitPython_SynthMenu"}
+urls = {Homepage = "https://github.com/relic-se/CircuitPython_MenuManager"}
 keywords = [
     "adafruit",
     "blinka",
     "circuitpython",
     "micropython",
-    "synthmenu",
+    "menumanager",
     "menu",
     "displayio",
     "character",
     "lcd",
     "graph",
+    "relic",
 ]
 license = {text = "MIT"}
 classifiers = [
@@ -43,7 +44,7 @@ classifiers = [
 dynamic = ["dependencies", "optional-dependencies"]
 
 [tool.setuptools]
-packages = ["synthmenu"]
+packages = ["relic_menumanager"]
 
 [tool.setuptools.dynamic]
 dependencies = {file = ["requirements.txt"]}
