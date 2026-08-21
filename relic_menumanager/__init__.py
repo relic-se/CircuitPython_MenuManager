@@ -136,7 +136,7 @@ class Group(Item):
         for i, item in enumerate(self._items):
             if item.title == title:
                 return i, item
-        return None
+        return -1, None
 
     @property
     def value(self) -> tuple:
@@ -166,7 +166,7 @@ class Group(Item):
     def data(self, value: dict) -> None:
         for title in value:
             i, item = self.find(title)
-            if item:
+            if item is not None:
                 item.data = value[title]
 
     def do_update(self) -> None:
